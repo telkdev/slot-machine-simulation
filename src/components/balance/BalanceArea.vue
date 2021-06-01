@@ -20,7 +20,6 @@ import BALANCE from "@/constants/balance.js";
 
 export default {
   name: "BalanceArea",
-  // TODO: change prop name
   props: {
     currentBalance: {
       type: Number,

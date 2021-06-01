@@ -61,8 +61,6 @@ export default {
       }
       return false;
     },
-    // TODO: REFACTOR THIS SHIT SOMEHOW
-    // CONSTANTS
     setWinResult(row, index, rowName) {
       this.$emit("update-win-data", {
         row: index,

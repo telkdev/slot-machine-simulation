@@ -34,6 +34,11 @@
         class="game-debug"
       />
 
+      <notification-area
+        :result-status="resultStatus"
+        class="game-notification"
+      ></notification-area>
+
       <pay-table
         :result="result"
         :win-data="winData"
@@ -50,6 +55,7 @@ import PayTable from "@/components/payTable/PayTable.vue";
 import Reel from "@/components/reel/Reel.vue";
 import Balance from "@/components/balance/BalanceArea.vue";
 import DebugArea from "@/components/debugger/DebugArea.vue";
+import Notification from "@/components/notification/Notification.vue";
 import BALANCE from "@/constants/balance.js";
 
 export default {
@@ -59,6 +65,7 @@ export default {
     "reel-wrapper": Reel,
     "balance-area": Balance,
     "debug-area": DebugArea,
+    "notification-area": Notification,
   },
   data() {
     return {
@@ -73,6 +80,13 @@ export default {
       isPending: false,
       isGameStarted: false,
     };
+  },
+  computed: {
+    resultStatus() {
+      if (this.isSpinning || this.isPending || !this.isGameStarted) return "process";
+      if (this.winData.winRows.length === 0) return "loser";
+      return "winner";
+    },
   },
   methods: {
     updateBalance(updatedData) {
@@ -133,8 +147,10 @@ export default {
     display: grid;
     grid-template-areas:
       "reel debug"
+      "reel notification"
       "pay_table pay_table";
     grid-template-columns: auto 1fr;
+    grid-template-rows: minmax(min-content, 12em) auto auto;
     gap: 2em;
   }
 
@@ -148,6 +164,10 @@ export default {
 
   &-debug {
     grid-area: debug;
+  }
+
+  &-notification {
+    grid-area: notification;
   }
 
   &-pay_table {
