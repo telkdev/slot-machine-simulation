@@ -39,3 +39,26 @@
     transform: translateY(-605px);
   }
 }
+
+@keyframes down {
+  0% {
+    top: -20%;
+    transform: translateX(15px) rotate(0deg);
+  }
+  20% {
+    transform: translateX(-15px) rotate(45deg);
+  }
+  40% {
+    transform: translateX(-7px) rotate(90deg);
+  }
+  60% {
+    transform: translateX(0) rotate(125deg);
+  }
+  80% {
+    transform: translateX(5px) rotate(180deg);
+  }
+  100% {
+    top: 110%;
+    transform: translateX(15px) rotate(225deg);
+  }
+}
