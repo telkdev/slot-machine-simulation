@@ -1,0 +1,41 @@
+@keyframes blink {
+  from {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes spinning {
+  0% {
+    transform: translateY(-847px);
+  }
+  33% {
+    transform: translateY(-605px);
+  }
+  66% {
+    transform: translateY(-363px);
+  }
+  99% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(-847px);
+  }
+}
+
+@keyframes slow-down {
+  0% {
+    transform: translateY(-847px);
+  }
+  70% {
+    transform: translateY(-585px);
+  }
+  100% {
+    transform: translateY(-605px);
+  }
+}

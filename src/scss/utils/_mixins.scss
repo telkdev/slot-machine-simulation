@@ -1,0 +1,282 @@
+@mixin size($a, $b: $a) {
+  width: $a;
+  height: $b;
+}
+
+@mixin size-circle($a, $b: $a) {
+  width: $a;
+  height: $b;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+@mixin site-width($width: 1200px) {
+  max-width: $width;
+  width: 100%;
+  margin: 0 auto;
+}
+
+@mixin clearfix {
+  &::after {
+    content: '';
+    display: table;
+    clear: both;
+    width: 100%;
+  }
+}
+
+@mixin hidden {
+  position: absolute;
+  clip: rect(1px 1px 1px 1px);
+  /* IE6, IE7 */
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0;
+  border: 0;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+}
+
+@mixin absolute-full {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+@mixin absolute-centering {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin pseudo($display: block, $pos: absolute, $content: '') {
+  content: $content;
+  display: $display;
+  position: $pos;
+}
+
+@mixin responsive-ratio($x, $y, $pseudo: false) {
+  $padding: unquote(($y / $x) * 100 + '%');
+  overflow: hidden;
+
+  @if $pseudo {
+    position: relative;
+
+    &:before {
+      @include pseudo($pos: relative);
+      width: 100%;
+      padding-top: $padding;
+    }
+  }
+
+  @else {
+    padding-top: $padding;
+  }
+}
+
+@mixin css-triangle($color, $direction, $size: 6px, $position: absolute, $round: false) {
+  @include pseudo($pos: $position);
+  width: 0;
+  height: 0;
+
+  @if $round {
+    border-radius: 3px;
+  }
+
+  @if $direction==down {
+    border-left: $size solid transparent;
+    border-right: $size solid transparent;
+    border-top: $size solid $color;
+    margin-top: 0 - round($size / 2.5);
+  }
+
+  @else if $direction==up {
+    border-left: $size solid transparent;
+    border-right: $size solid transparent;
+    border-bottom: $size solid $color;
+    margin-bottom: 0 - round($size / 2.5);
+  }
+
+  @else if $direction==right {
+    border-top: $size solid transparent;
+    border-bottom: $size solid transparent;
+    border-left: $size solid $color;
+    margin-right: -$size;
+  }
+
+  @else if $direction==left {
+    border-top: $size solid transparent;
+    border-bottom: $size solid transparent;
+    border-right: $size solid $color;
+    margin-left: -$size;
+  }
+}
+
+@mixin truncate($truncation-boundary) {
+  max-width: $truncation-boundary;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin act-color($color) {
+  #{if(&, '&.act')} {
+    fill: $color;
+    color: $color;
+  }
+}
+
+// SIDE CAN BE 100%;
+@mixin stick($height, $color, $side: 0) {
+
+  content: '';
+  width: 1px;
+  height: $height;
+  background: $color;
+  position: absolute;
+  top: 50%;
+  right: $side;
+  transform: translateY(-50%);
+}
+
+@mixin line-clamp($count: 3) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: $count;
+  -webkit-box-orient: vertical;
+}
+
+@mixin after-circle($background, $size: 160px) {
+  position: relative;
+  width: $size;
+
+  &::after {
+    @include size-circle($size);
+
+    content: "";
+
+    background: $background;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  &>svg {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+@mixin scrollbar($height: 3px, $background: red, $boder-radius: 3px, $track: transparent) {
+  &::-webkit-scrollbar {
+    height: $height;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $background;
+    border-radius: $boder-radius;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $track;
+  }
+}
+
+@mixin arrow($color) {
+  position: relative;
+
+  &::before {
+    content: '';
+
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: -1px;
+    border-left: 5px solid $color;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+  }
+
+  &::after {
+    content: '';
+
+    position: absolute;
+    right: 1px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-left: 4px solid $white01;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+  }
+}
+
+@mixin subfield {
+  @each $selector in & {
+
+    $l: length($selector);
+
+    @if ($l==1) {
+      @error "Used parent mixin on a top-level selector";
+    }
+
+    @else {
+
+      $parent: nth($selector, 1);
+
+      @for $i from 2 to $l {
+        $parent: append($parent, nth($selector, $i));
+      }
+
+      @at-root #{$parent} {
+        @content;
+      }
+
+    }
+  }
+}
+
+@mixin ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+@mixin word-wrap {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+@mixin line-hover($color: red) {
+  background-image: linear-gradient($color, $color);
+  background-position: 0% 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  transition: background-size $animation-speed;
+
+  &:hover,
+  &:active,
+  &.act {
+    background-size: 100% 1px;
+  }
+}
+
+@mixin hide-scrollbar {
+  scrollbar-width: none; //Firefox
+  -ms-overflow-style: none; // IE
+
+  &::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; //Chrome/Safari/Webkit
+  }
+}
