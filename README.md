@@ -7,7 +7,7 @@ Attributes of height and width have been added to the images of the slots to pre
 The reel initially contains 12 elements for a beautiful and smooth animation.
 Important date added to constants.
 
-Images were optized at squosh.
+Images were optized at squoosh.
 
 At constants i have used "isBar" for reel because it has only 2 types(bar, not bar), in real-world app i would check by type or smt
 
